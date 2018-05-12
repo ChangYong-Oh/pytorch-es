@@ -20,19 +20,19 @@ def weights_init(m):
     """
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
-        weight_shape = list(m.weight.data.size())
+        weight_shape = list(m.weight.size())
         fan_in = np.prod(weight_shape[1:4])
         fan_out = np.prod(weight_shape[2:4]) * weight_shape[0]
         w_bound = np.sqrt(6. / (fan_in + fan_out))
-        m.weight.data.uniform_(-w_bound, w_bound)
-        m.bias.data.fill_(0)
+        m.weight.uniform_(-w_bound, w_bound)
+        m.bias.fill_(0)
     elif classname.find('Linear') != -1:
-        weight_shape = list(m.weight.data.size())
+        weight_shape = list(m.weight.size())
         fan_in = weight_shape[1]
         fan_out = weight_shape[0]
         w_bound = np.sqrt(6. / (fan_in + fan_out))
-        m.weight.data.uniform_(-w_bound, w_bound)
-        m.bias.data.fill_(0)
+        m.weight.uniform_(-w_bound, w_bound)
+        m.bias.fill_(0)
 
 def selu(x):
     alpha = 1.6732632423543772848170429916717
@@ -82,7 +82,7 @@ class ES(torch.nn.Module):
     def count_parameters(self):
         count = 0
         for param in self.parameters():
-            count += param.data.numpy().flatten().shape[0]
+            count += param.numpy().flatten().shape[0]
         return count
 
     def es_params(self):

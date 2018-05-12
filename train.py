@@ -45,7 +45,7 @@ def do_rollouts(args, models, random_seeds, return_queue, env, are_negative):
                      (hx, cx)))
 
             prob = F.softmax(logit)
-            action = prob.max(1)[1].data.numpy()
+            action = prob.max(1)[1].numpy()
             state, reward, done, _ = env.step(action[0])
             this_model_return += reward
             this_model_num_frames += 1
@@ -224,7 +224,7 @@ def render_env(args, model, env):
                      (hx, cx)))
 
             prob = F.softmax(logit)
-            action = prob.max(1)[1].data.numpy()
+            action = prob.max(1)[1].numpy()
             state, reward, done, _ = env.step(action[0, 0])
             env.render()
             this_model_return += reward
